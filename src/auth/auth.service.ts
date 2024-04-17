@@ -24,6 +24,10 @@ export class AuthService {
     private readonly jwtService: JwtService,
   ) {}
 
+  async findAll() {
+    return this.prismaService.user.findMany();
+  }
+
   async findByUuid(uuid: string) {
     return this.prismaService.user.findUnique({
       where: {

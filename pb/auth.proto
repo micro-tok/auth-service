@@ -8,6 +8,7 @@ service AuthService {
   rpc ValidateUser(ValidateUserRequest) returns (ValidateUserResponse) {}
   rpc GetMe(GetMeRequest) returns (GetMeResponse) {}
   rpc GetPublicUser(GetPublicUserRequest) returns (GetPublicUserResponse) {}
+  rpc GetAllUsers(GetAllUsersRequest) returns (GetAllUsersResponse) {}
   rpc RefreshToken(RefreshTokenRequest) returns (RefreshTokenResponse) {}
 }
 
@@ -59,6 +60,12 @@ message GetPublicUserRequest {
 message GetPublicUserResponse {
   string userUuid = 1;
   string username = 2;
+}
+
+message GetAllUsersRequest {}
+
+message GetAllUsersResponse {
+  repeated GetPublicUserResponse users = 1;
 }
 
 message RefreshTokenRequest {

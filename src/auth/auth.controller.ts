@@ -27,4 +27,46 @@ export class AuthController {
       userUuid: body.user.uuid,
     };
   }
+
+  @UseGuards(JwtAuthGuard)
+  @GrpcMethod('AuthService', 'GetMe')
+  getMe(body: { user: User }) {
+    return {
+      userUuid: body.user.uuid,
+      username: body.user.username,
+      email: body.user.email,
+    };
+  }
+
+  @GrpcMethod('AuthService', 'GetPublicUser')
+  async getPublicUser(body: { userUuid: string }) {
+    const user = await this.authService.findByUuid(body.userUuid);
+
+    return {
+      username: user.username,
+      userUuid: user.uuid,
+    };
+  }
+
+  @GrpcMethod('AuthService', 'GetAllUsers')
+  async getAllUsers() {
+    console.log('GetAllUsers');
+    const users = await this.authService.findAll();
+    console.log(
+      users.map((user) => {
+        return {
+          username: user.username,
+          uuid: user.uuid,
+        };
+      }),
+    );
+    return {
+      users: users.map((user) => {
+        return {
+          username: user.username,
+          userUuid: user.uuid,
+        };
+      }),
+    };
+  }
 }
