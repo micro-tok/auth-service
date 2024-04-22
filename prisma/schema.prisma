@@ -9,10 +9,17 @@ datasource db {
 }
 
 model User {
-  uuid      String   @id @default(uuid())
-  email     String   @unique
+  uuid      String     @id @default(uuid())
+  email     String     @unique
   username  String
   password  String
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  interests Interest[]
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
+}
+
+model Interest {
+  uuid  String @id @default(uuid())
+  name  String @unique
+  users User[]
 }

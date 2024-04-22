@@ -57,6 +57,44 @@ export class AuthService {
     return null;
   }
 
+  async updateInterests(uuid: string, interests: string[]) {
+    return this.prismaService.user.update({
+      where: {
+        uuid,
+      },
+      data: {
+        interests: {
+          connectOrCreate: interests.map((interest) => ({
+            where: {
+              name: interest,
+            },
+            create: {
+              name: interest,
+            },
+          })),
+        },
+      },
+      select: {
+        interests: true,
+      },
+    });
+  }
+
+  async getInterests(uuid: string) {
+    const interests = await this.prismaService.user.findUnique({
+      where: {
+        uuid,
+      },
+      select: {
+        interests: true,
+      },
+    });
+
+    console.log(interests);
+
+    return interests;
+  }
+
   async login(email: string, password: string) {
     const user = await this.findByEmail(email);
 

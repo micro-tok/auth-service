@@ -7,6 +7,8 @@ service AuthService {
   rpc Register(RegisterRequest) returns (RegisterResponse) {}
   rpc ValidateUser(ValidateUserRequest) returns (ValidateUserResponse) {}
   rpc GetMe(GetMeRequest) returns (GetMeResponse) {}
+  rpc UpdateMyInterests(UpdateMyInterestsRequest) returns (UpdateMyInterestsResponse) {}
+  rpc GetMyInterests(GetMyInterestsRequest) returns (GetMyInterestsResponse) {}
   rpc GetPublicUser(GetPublicUserRequest) returns (GetPublicUserResponse) {}
   rpc GetAllUsers(GetAllUsersRequest) returns (GetAllUsersResponse) {}
   rpc RefreshToken(RefreshTokenRequest) returns (RefreshTokenResponse) {}
@@ -51,6 +53,23 @@ message GetMeResponse {
   string userUuid = 1;
   string email = 2;
   string username = 3;
+}
+
+message UpdateMyInterestsRequest {
+  string token = 1;
+  repeated string interests = 2;
+}
+
+message UpdateMyInterestsResponse {
+  repeated string interests = 1;
+}
+
+message GetMyInterestsRequest {
+  string token = 1;
+}
+
+message GetMyInterestsResponse {
+  repeated string interests = 1;
 }
 
 message GetPublicUserRequest {

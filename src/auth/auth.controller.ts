@@ -38,6 +38,18 @@ export class AuthController {
     };
   }
 
+  @UseGuards(JwtAuthGuard)
+  @GrpcMethod('AuthService', 'UpdateMyInterests')
+  updateInterests(body: { user: User; interests: string[] }) {
+    return this.authService.updateInterests(body.user.uuid, body.interests);
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @GrpcMethod('AuthService', 'GetMyInterests')
+  getMyInterests(body: { user: User }) {
+    return this.authService.getInterests(body.user.uuid);
+  }
+
   @GrpcMethod('AuthService', 'GetPublicUser')
   async getPublicUser(body: { userUuid: string }) {
     const user = await this.authService.findByUuid(body.userUuid);
