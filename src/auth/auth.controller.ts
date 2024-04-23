@@ -1,10 +1,10 @@
-import { Controller, UseGuards } from '@nestjs/common';
+import { Controller, UseGuards, UseInterceptors } from '@nestjs/common';
 import { GrpcMethod } from '@nestjs/microservices';
 import { AuthService } from './auth.service';
 import { SignupDto } from './dtos/signup.dto';
 import { JwtAuthGuard } from './guards/jwt-auth.guard';
-import { LocalAuthGuard } from './guards/local-auth.guard';
 import { User } from '@prisma/client';
+import { CacheInterceptor } from '@nestjs/cache-manager';
 
 @Controller('auth')
 export class AuthController {
@@ -50,6 +50,7 @@ export class AuthController {
     return this.authService.getInterests(body.user.uuid);
   }
 
+  @UseInterceptors(CacheInterceptor)
   @GrpcMethod('AuthService', 'GetPublicUser')
   async getPublicUser(body: { userUuid: string }) {
     const user = await this.authService.findByUuid(body.userUuid);
@@ -60,6 +61,7 @@ export class AuthController {
     };
   }
 
+  @UseInterceptors(CacheInterceptor)
   @GrpcMethod('AuthService', 'GetAllUsers')
   async getAllUsers() {
     console.log('GetAllUsers');
