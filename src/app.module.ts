@@ -1,25 +1,15 @@
 import { Module } from '@nestjs/common';
+import { JwtModule } from '@nestjs/jwt';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { AuthService } from './auth/auth.service';
 import { AuthModule } from './auth/auth.module';
-import { PrismaService } from './prisma/prisma.service';
+import { AuthService } from './auth/auth.service';
 import { PrismaModule } from './prisma/prisma.module';
-import { JwtModule } from '@nestjs/jwt';
-import { CacheInterceptor, CacheModule } from '@nestjs/cache-manager';
-import { APP_INTERCEPTOR } from '@nestjs/core';
+import { PrismaService } from './prisma/prisma.service';
 
 @Module({
-  imports: [AuthModule, PrismaModule, JwtModule, CacheModule.register()],
+  imports: [AuthModule, PrismaModule, JwtModule],
   controllers: [AppController],
-  providers: [
-    AppService,
-    AuthService,
-    PrismaService,
-    {
-      provide: APP_INTERCEPTOR,
-      useClass: CacheInterceptor,
-    },
-  ],
+  providers: [AppService, AuthService, PrismaService],
 })
 export class AppModule {}

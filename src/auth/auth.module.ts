@@ -1,14 +1,14 @@
 import { Module } from '@nestjs/common';
+import { JwtModule } from '@nestjs/jwt';
+import { PassportModule } from '@nestjs/passport';
+import { PrismaModule } from '../prisma/prisma.module';
 import { AuthController } from './auth.controller';
 import { AuthService } from './auth.service';
-import { env } from 'process';
-import { PassportModule } from '@nestjs/passport';
 import { jwtConstants } from './constants';
-import { LocalStrategy } from './strategies/local.strategy';
 import { JwtStrategy } from './strategies/jwt.strategy';
+import { LocalStrategy } from './strategies/local.strategy';
 import { RefreshJwtStrategy } from './strategies/refresh-jwt.strategy';
-import { JwtModule } from '@nestjs/jwt';
-import { PrismaModule } from '../prisma/prisma.module';
+import { CacheModule } from '@nestjs/cache-manager';
 
 const passportModule = PassportModule.register({ defaultStrategy: 'jwt' });
 
@@ -22,6 +22,7 @@ const passportModule = PassportModule.register({ defaultStrategy: 'jwt' });
         expiresIn: '1d',
       },
     }),
+    CacheModule.register(),
   ],
   providers: [AuthService, LocalStrategy, JwtStrategy, RefreshJwtStrategy],
   controllers: [AuthController],
