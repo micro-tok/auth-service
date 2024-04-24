@@ -16,5 +16,5 @@ COPY --from=builder /usr/src/app/dist ./dist
 COPY --from=builder /usr/src/app/package.json /usr/src/app/pnpm-lock.yaml ./
 RUN npm install -g pnpm && pnpm install --prod --frozen-lockfile
 ENV NODE_ENV=production
-EXPOSE 3000
+EXPOSE 50001
 CMD ["node", "dist/main"]
