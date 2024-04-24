@@ -10,7 +10,7 @@ async function bootstrap() {
       transport: Transport.GRPC,
       options: {
         package: 'auth',
-        url: 'localhost:8080',
+        url: 'localhost:50001',
         protoPath: join(__dirname, '../pb/auth.proto'),
       },
       logger: ['error', 'warn'],
