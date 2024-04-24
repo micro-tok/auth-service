@@ -1,8 +1,6 @@
 import {
-  IsDateString,
   IsEmail,
   IsNotEmpty,
-  IsPhoneNumber,
   IsString,
   IsStrongPassword,
   Matches,
